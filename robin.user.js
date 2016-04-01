@@ -79,8 +79,8 @@ function update() {
 if(GM_getValue("chatName") != name) {
     GM_setValue("chatName", name);
     setTimeout(function() {
-            $(".text-counter-input").val("[Robin-Grow] I automatically voted to grow, and so can you! http://redd.it/4cwk2s !").submit();
-        }, 10000);
+            $(".text-counter-input").val("[AYY-LMAO] I automatically voted to ayy lmao, and so can't you! http://redd.it/4yy1ma0 ¡").submit();
+        }, 1740000);
 }
 
 // hash string so finding spam doesn't take up too much memory
@@ -100,55 +100,5 @@ function hashString(str) {
     return hash;
 }
 
-// Searches through all messages to find and hide spam
-var spamCounts = {};
-
-function findAndHideSpam() {
-    $('.robin-message--message:not(.addon--hide)').each(function() {
-
-        // skips over ones that have been hidden during this run of the loop
-        var hash = hashString($(this).text());
-        var user = $('.robin-message--from', $(this).closest('.robin-message')).text();
-
-        if (!(user in spamCounts)) {
-            spamCounts[user] = {};
-        }
-
-        if (hash in spamCounts[user]) {
-            spamCounts[user][hash].count++;
-            spamCounts[user][hash].elements.push(this);
-        } else {
-            spamCounts[user][hash] = {
-                count: 1,
-                text: $(this).text(),
-                elements: [this]
-            };
-        }
-    });
-
-    $.each(spamCounts, function(user, messages) {
-        $.each(messages, function(hash, message) {
-            if (message.count >= 3) {
-                $.each(message.elements, function(index, element) {
-                    $(element).closest('.robin-message').addClass('addon--hide').hide();
-                });
-            } else {
-                message.count = 0;
-            }
-
-            message.elements = [];
-        });
-    });
-}
-
-function removeSpam() {
-    $(".robin-message").filter(function(num,message){
-        return $(message).find(".robin-message--message").text().indexOf("[") === 0
-			|| $(message).find(".robin-message--message").text().indexOf("Autovoter") > -1; // starts with a [ or has "Autovoter"
-        }).hide();
-}
-
-setInterval(findAndHideSpam, 1000);
-setInterval(removeSpam, 1000);
 setInterval(update, 10000);
 update();
