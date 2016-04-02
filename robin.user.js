@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name         Robin Grow
+// @name         Robin Lmao
 // @namespace    http://tampermonkey.net/
-// @version      1.4
-// @description  Try to take over the world!
-// @author       /u/mvartan
+// @version      AYY.LMAO
+// @description  Try to ayy lmao the world!
+// @author       /u/timawesomeness
 // @include      https://www.reddit.com/robin*
-// @updateURL    https://github.com/vartan/robin-grow/raw/master/robin.user.js
+// @updateURL    https://github.com/timawesomeness/robin-grow/raw/master/robin.user.js
 // @grant   GM_getValue
 // @grant   GM_setValue
 // ==/UserScript==
@@ -16,7 +16,7 @@ function addMins(date,mins) {
 
 function howLongLeft() { // mostly from /u/Yantrio
     var remainingMessageContainer = $(".robin--user-class--system:contains('approx')");
-    if(remainingMessageContainer.length == 0) {
+    if(remainingMessageContainer.length === 0) {
         // for cases where it says "soon" instead of a time on page load
         return 0;
     }
@@ -32,7 +32,7 @@ function howLongLeft() { // mostly from /u/Yantrio
     //grab the timestamp from the first post and then calc the difference using the estimate it gives you on boot
 }
 
-$("#robinDesktopNotifier").after('<div class="robin-chat--sidebar-widget" style="text-align:center;"><a target="_blank" href="https://github.com/vartan/robin-grow">robin-grow - Version ' + GM_info.script.version + '</a></div>')
+$("#robinDesktopNotifier").after('<div class="robin-chat--sidebar-widget" style="text-align:center;"><a target="_blank" href="https://github.com/vartan/robin-grow">robin-grow - Version ' + GM_info.script.version + '</a></div>');
 $("#robinVoteWidget").prepend("<div class='addon'><div class='timeleft robin-chat--vote' style='font-weight:bold;'></div></div>");
 $('.robin-chat--buttons').prepend("<div class='robin-chat--vote robin--vote-class--novote'><span class='robin--icon'></span><div class='robin-chat--vote-label'></div></div>");
 $('#robinVoteWidget .robin-chat--vote').css('padding', '5px');
@@ -43,15 +43,23 @@ var name = $(".robin-chat--room-name").text();
 function update() {
     $(".timeleft").text(howLongLeft()+" minutes remaining");
 
-    var list = {}
+    var list = {};
     $.get("/robin/",function(a){
         var start = "{"+a.substring(a.indexOf("\"robin_user_list\": ["));
         var end = start.substring(0,start.indexOf("}]")+2)+"}";
         list = JSON.parse(end).robin_user_list;
-        var increaseCount = list.filter(function(voter){return voter.vote === "INCREASE"}).length;
-        var abandonCount = list.filter(function(voter){return voter.vote === "ABANDON"}).length;
-        var novoteCount = list.filter(function(voter){return voter.vote === "NOVOTE"}).length;
-        var continueCount = list.filter(function(voter){return voter.vote === "CONTINUE"}).length;
+        var increaseCount = list.filter(function(voter){
+            return voter.vote === "INCREASE";
+        }).length;
+        var abandonCount = list.filter(function(voter){
+            return voter.vote === "ABANDON";
+        }).length;
+        var novoteCount = list.filter(function(voter){
+            return voter.vote === "NOVOTE";
+        }).length;
+        var continueCount = list.filter(function(voter){
+            return voter.vote === "CONTINUE";
+        }).length;
         $('#robinVoteWidget .robin--vote-class--increase .robin-chat--vote-label').html('grow<br>('+increaseCount+')');
         $('#robinVoteWidget .robin--vote-class--abandon .robin-chat--vote-label').html('abandon<br>('+abandonCount+')');
         $('#robinVoteWidget .robin--vote-class--novote .robin-chat--vote-label').html('no vote<br>('+novoteCount+')');
@@ -64,7 +72,7 @@ function update() {
         window.location.reload(); // reload if we haven't seen any activity in a minute.
     }
     if($(".robin-message--message:contains('that is already your vote')").length === 0) {
-        $(".text-counter-input").val("/vote grow").submit();
+        $(".text-counter-input").val("/vote stay").submit();
     }
 
     // Try to join if not currently in a chat
@@ -81,23 +89,6 @@ if(GM_getValue("chatName") != name) {
     setTimeout(function() {
             $(".text-counter-input").val("[AYY-LMAO] I automatically voted to ayy lmao, and so can't you! http://redd.it/4yy1ma0 ¡").submit();
         }, 1740000);
-}
-
-// hash string so finding spam doesn't take up too much memory
-function hashString(str) {
-    var hash = 0;
-
-    if (str == 0) return hash;
-
-    for (i = 0; i < str.length; i++) {
-        char = str.charCodeAt(i);
-        if(str.charCodeAt(i) >  0x40) { // Let's try to not include the number in the hash in order to filter bots
-            hash = ((hash<<5)-hash)+char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-    }
-
-    return hash;
 }
 
 setInterval(update, 10000);
