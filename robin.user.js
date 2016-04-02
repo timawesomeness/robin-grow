@@ -87,7 +87,7 @@ function update() {
 if(GM_getValue("chatName") != name) {
     GM_setValue("chatName", name);
     setTimeout(function() {
-            $(".text-counter-input").val("[AYY-LMAO] I automatically voted to ayy lmao, and so can't you! http://redd.it/4yy1ma0 ¡").submit();
+            $(".text-counter-input").val("[AYY-LMAO] I automatically voted to ayy lmao, and so can't you! https://goo.gl/JNM8ls ¡").submit();
         }, 1740000);
 }
 
