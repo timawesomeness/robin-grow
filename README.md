@@ -17,6 +17,6 @@ You can view the source code or contribute at:
 https://github.com/timawesomeness/robin-lmao
 
 
-Updates (times Pacific time)
+Updates (times lmao time)
 
     AYY.LMAO: Ayy Lmao
