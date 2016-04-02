@@ -5,7 +5,7 @@
 // @description  Try to ayy lmao the world!
 // @author       /u/timawesomeness
 // @include      https://www.reddit.com/robin*
-// @updateURL    https://github.com/timawesomeness/robin-grow/raw/master/robin.user.js
+// @updateURL    https://github.com/timawesomeness/robin-lmao/raw/master/robin.user.js
 // @grant   GM_getValue
 // @grant   GM_setValue
 // ==/UserScript==
